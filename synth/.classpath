@@ -3,5 +3,13 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-release-3.2.3-custom/lwjgl-javadoc.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-release-3.2.3-custom/lwjgl-natives-macos.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-javadoc.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-natives-macos.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-sources.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-release-3.2.3-custom/lwjgl-openal.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-release-3.2.3-custom/lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="libraries/lwjgl-release-3.2.3-custom/lwjgl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
