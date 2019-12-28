@@ -29,7 +29,7 @@ public class Main extends Application {
 		}
 		short s [] = new short[AudioThread.BUFFER_SIZE];
 		for(int i = 0; i < AudioThread.BUFFER_SIZE; i++) {
-			s[i] = (short) (Short.MAX_VALUE * Math.sin(2 * Math.PI * 200) / Synthesizer.AudioInfo.SAMPLE_RATE * wavePos++) ;
+			s[i] = (short)(Short.MAX_VALUE * Math.sin((2*Math.PI * 440) / Synthesizer.AudioInfo.SAMPLE_RATE * wavePos++)); 
 		}
 		return s; //return buffer
 	});
