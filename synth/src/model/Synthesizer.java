@@ -1,8 +1,9 @@
 package model;
 
 public class Synthesizer {
+	public int octave = 0;
 	
-	public static class AudioInfo{
-		public static final int SAMPLE_RATE = 44100; 
+	public int getOctave() {
+		return octave;
 	}
 }

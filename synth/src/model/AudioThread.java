@@ -3,63 +3,73 @@ package model;
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.function.Supplier;
 
 import org.lwjgl.openal.AL;
+import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.ALC;
 
+import model.wave.WaveData;
+//idea > pitch the sound for every button
 public class AudioThread extends Thread{
 
 	public static final int BUFFER_SIZE = 512;
-	static final int BUFFER_COUNT = 8;
 
-	private final Supplier<short[]> bufferSupplier;
-	private final int[] buffers = new int[BUFFER_COUNT];
+	private final Supplier<WaveData> bufferSupplier;
+	private int buffer;
 	private final long device = alcOpenDevice(alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER));
 	private final long context = alcCreateContext(device, new int [1]);
 	private final int source;
 
-	private int bufferIndex;
-	private boolean closed;
+	private String waveFileName;
 	private boolean running;
+	private boolean paused;
+	private boolean killThread = false;
 	
-	public AudioThread( Supplier<short[]> supplier){
-		this.bufferSupplier = supplier;
-		
-		alcMakeContextCurrent(context);
-		AL.createCapabilities(ALC.createCapabilities(device));
-		source = alGenSources();
-		
-		for(int i = 0; i < BUFFER_COUNT; i++) {
-			bufferSamples(new short[0]);
+	public AudioThread(Supplier<WaveData> supplier) {
+			this.bufferSupplier = supplier;
+			this.waveFileName = "assets/Cello_A2.wav";
+			
+			alcMakeContextCurrent(context);
+			AL.createCapabilities(ALC.createCapabilities(device));
+			source = alGenSources();
+		try {
+			WaveData waveFile = WaveData.create(new BufferedInputStream(new FileInputStream(waveFileName)));
+			bufferSamples(waveFile);
+			
+			alSourcePlay(source);
+			catchInternalException();
+			start();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-		alSourcePlay(source);
-		catchInternalException();
-		start();
 	}
+
 	@Override
 	public synchronized void run() {
-		while(!closed) {
-			while(!running) {
-				System.out.println("-----while !running");
-				try {
-					wait();
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
+		try {
+		while(!running) {			
+			while(paused) {
+				alSourcePause(source);
+				alSourceRewind(source);
+				//TODO start from the begin
+				wait();
 			}
-			System.out.println("----- -----running");
+			
 			int processedBuffs = alGetSourcei(source, AL_BUFFERS_PROCESSED);
 			for(int i = 0; i < processedBuffs; i++) {
-				short[] samples = bufferSupplier.get();
-				if(samples == null) {
-					running = false;
+				System.out.print("..\n");
+				WaveData sample = bufferSupplier.get();
+				if(sample == null) {
+					paused = true; 
 					break;
 				}
 				alDeleteBuffers(alSourceUnqueueBuffers(source));
-				buffers[bufferIndex] = alGenBuffers();
-				bufferSamples(samples);
-				
+				buffer = alGenBuffers();
+				bufferSamples(sample);
 			}
 			
 			if(alGetSourcei(source, AL_SOURCE_STATE) != AL_PLAYING) {
@@ -67,39 +77,47 @@ public class AudioThread extends Thread{
 			}
 			catchInternalException();
 		}
-		alDeleteSources(source);
-		alDeleteBuffers(buffers);
-		alcDestroyContext(context);
-		alcCloseDevice(device);
+		
+		if(killThread) {
+			alDeleteSources(source);
+			alDeleteBuffers(buffer);
+			alcDestroyContext(context);
+			alcCloseDevice(device);
+		}
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
-	public boolean isRunning(){
-		return running;
+	public void setWaveFile(String path) {
+		
+	}
+	public void setPitch(float d) {
+		AL10.alSourcef(source, AL_PITCH, d);
+	}
+	public boolean isNotKilled(){
+		return !killThread;
 	}
 	public synchronized void triggerPlayback() {
-		System.out.println("----- in trigger");
-		running = true;
+		paused = false; 
+		
 		notify();
 	}
-	void close() {
-		closed = true;
-		triggerPlayback();
+	public void pause() {
+		paused = true;
+	}
+	public void close() {
+		killThread = true;
 	}
 	
-	private void bufferSamples(short[] samples) {
-		int buf = buffers[bufferIndex++];
-		alBufferData(buf, AL_FORMAT_MONO16, samples, Synthesizer.AudioInfo.SAMPLE_RATE);
-		alSourceQueueBuffers(source, buf);
-		
-		bufferIndex %= BUFFER_COUNT;
+	private void bufferSamples(WaveData sample) {
+		alBufferData(buffer, sample.format, sample.data, sample.samplerate);
+		alSourceQueueBuffers(source, buffer);
 	}
 	
 	private void catchInternalException() {
 		int err = alcGetError(device);
 		if (err != ALC_NO_ERROR) {
-			// TODO
-			// write this exception class and delete the last line
-			// throw new OpenALException(err); // 20 min in video
 			throw new RuntimeException();
 		}
 	}

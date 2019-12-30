@@ -1,21 +1,24 @@
 package views;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import model.AudioThread;
-import model.Synthesizer;
+import ui.*;
 
 public class MainView extends AnchorPane {
-	Label lbl;
+	WaveView waveView;
+	KeyboardView keyboardView;
+	SettingsView settingsView;
 	
 	public MainView(){
-		lbl = new Label("Label");
-		getChildren().add(lbl);
+		this.waveView = new WaveView();
+		this.keyboardView = new KeyboardView();
+		this.settingsView = new SettingsView();
 		
+		getChildren().add(waveView);
+		
+		getChildren().add(keyboardView);
+        AnchorPane.setTopAnchor(keyboardView, waveView.getHeight());
+        
+        getChildren().add(settingsView);
+        AnchorPane.setLeftAnchor(settingsView, 500.0);
 	}
-	
-//	in the class Synthesizer
-//	public static class AudioInfo{
-//		public static final int SAMPLE_RATE = 44100; 
-//	}
 }
