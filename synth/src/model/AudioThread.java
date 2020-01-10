@@ -55,7 +55,6 @@ public class AudioThread extends Thread{
 			while(paused) {
 				alSourcePause(source);
 				alSourceRewind(source);
-				//TODO start from the begin
 				wait();
 			}
 			

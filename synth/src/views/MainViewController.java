@@ -46,7 +46,7 @@ public class MainViewController extends ViewController<Main>{
 		super(application);
 		
 		this.synth = s;
-		rootView = new MainView();
+		rootView = new MainView(synth);
 		MainView view = (MainView) rootView;
 		
 		keyboardView = view.keyboardView;
@@ -78,14 +78,6 @@ public class MainViewController extends ViewController<Main>{
 				return waveFile;
 			});
 			
-			WaveData waveFile2 = WaveData.create(new BufferedInputStream( new FileInputStream("assets/Cello_A2.wav" )));
-			audioThread2 = new AudioThread(() ->{
-				if(!shouldGenerate2) {
-					return null;
-				}
-				return waveFile2;
-			});;
-
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} 

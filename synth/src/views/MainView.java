@@ -1,6 +1,7 @@
 package views;
 
 import javafx.scene.layout.AnchorPane;
+import model.Synthesizer;
 import ui.*;
 
 public class MainView extends AnchorPane {
@@ -8,10 +9,11 @@ public class MainView extends AnchorPane {
 	KeyboardView keyboardView;
 	SettingsView settingsView;
 	
-	public MainView(){
+	public MainView(Synthesizer s){
+		
 		this.waveView = new WaveView();
 		this.keyboardView = new KeyboardView();
-		this.settingsView = new SettingsView();
+		this.settingsView = new SettingsView(s);
 		
 		getChildren().add(waveView);
 		
