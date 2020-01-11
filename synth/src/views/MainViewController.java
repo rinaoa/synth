@@ -12,7 +12,12 @@ import java.nio.charset.StandardCharsets;
 import application.Main;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import model.AudioThread;
 import model.Synthesizer;
 import model.wave.WaveData;
@@ -46,7 +51,7 @@ public class MainViewController extends ViewController<Main>{
 		super(application);
 		
 		this.synth = s;
-		rootView = new MainView(synth);
+		rootView = new MainView(synth, application);
 		MainView view = (MainView) rootView;
 		
 		keyboardView = view.keyboardView;
@@ -72,9 +77,15 @@ public class MainViewController extends ViewController<Main>{
 			waveFile = WaveData.create(new BufferedInputStream( new FileInputStream("assets/bounce.wav")));
 			System.out.print(waveFile.data);
 			audioThread1 = new AudioThread(() ->{
+<<<<<<< HEAD
 				if(!keyPressed) {
+=======
+				if(!shouldGenerate1) {
+					System.out.print("...........");
+>>>>>>> katia
 					return null;
 				}
+				System.out.print("::::::::::::::::");
 				return waveFile;
 			});
 			
@@ -83,9 +94,50 @@ public class MainViewController extends ViewController<Main>{
 		} 
 	}
 	
+	private void initializeListeners(){
+	System.out.println("\n////......./////////\n");
+	
+	//+
+	keyboardView.setOnDragEntered(new EventHandler<DragEvent>(){
+		 @Override
+	     public void handle(DragEvent dragEvent){
+		     System.out.println("setOnDragEntered");
+		     
+		     keyboardView.setBlendMode(BlendMode.OVERLAY);
+		 }
+	 });
+	 
+	 keyboardView.setOnDragOver(new EventHandler<DragEvent>(){
+	     @Override
+	     public void handle(DragEvent dragEvent){
+		     System.out.println("setOnDragOver");
+		     
+		     dragEvent.acceptTransferModes(TransferMode.COPY);
+	     }
+     });
+	  
+	 keyboardView.setOnDragExited(new EventHandler<DragEvent>(){
+	     @Override
+	     public void handle(DragEvent dragEvent){
+		     System.out.println("setOnDragExited");
+	     
+		     keyboardView.setBlendMode(null);
+	     }
+	 });
+	 
+	keyboardView.setOnDragDropped(new EventHandler<DragEvent>(){
+	     @Override
+	     public void handle(DragEvent dragEvent){
+		     System.out.println("setOnDragDropped");
+		     
+		     dragEvent.setDropCompleted(true);
+	     }
+	     });
+	 }
 	@Override
 	public void initialize() {
 		initializeStreams();
+		initializeListeners();
 		//
 		// A
 		//

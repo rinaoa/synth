@@ -1,5 +1,6 @@
 package views;
 
+import application.Main;
 import javafx.scene.layout.AnchorPane;
 import model.Synthesizer;
 import ui.*;
@@ -9,11 +10,13 @@ public class MainView extends AnchorPane {
 	KeyboardView keyboardView;
 	SettingsView settingsView;
 	
-	public MainView(Synthesizer s){
+	public MainView(Synthesizer s, Main application){
 		
 		this.waveView = new WaveView();
 		this.keyboardView = new KeyboardView();
-		this.settingsView = new SettingsView(s);
+		
+		ViewController<Main> controller = new SettingsViewController(application, s);
+		this.settingsView = (SettingsView) controller.getRootView();
 		
 		getChildren().add(waveView);
 		

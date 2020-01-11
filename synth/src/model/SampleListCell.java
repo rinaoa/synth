@@ -2,10 +2,9 @@ package model;
 
 import java.io.FileInputStream;
 
+
 import java.io.IOException;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
@@ -14,7 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
-public class SampleListCell extends ListCell<Sample> {
+
+public class SampleListCell extends ListCell<Sample>{
 	private Pane view;
 	private Label titleLabel;
 	Synthesizer synth;
@@ -60,14 +60,10 @@ public class SampleListCell extends ListCell<Sample> {
 		Sample item = this.getItem();
 		
 		if (item != null) {
-//			mp3player.stop();
-//			mp3player.setTrack(item);
-//			mp3player.setCurrentTrackToAudioPlayer();
-//			System.out.println("item gef�llt: " + item.getSongName() + "---- " + mp3player._trackNumber + " " +  mp3player._currentTrack.getValue().getSongName() );
-//			mp3player.play();
+			//...
 		}
 		else {
 			System.out.print("Item leer");
 		}
-	}
+	}    	
 }

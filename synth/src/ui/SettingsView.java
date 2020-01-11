@@ -40,11 +40,13 @@ public class SettingsView extends VBox{
     	
     	samplesView.setCellFactory(
     			new Callback<ListView<Sample>, ListCell<Sample>>(){		
-    				@Override		
-    				public ListCell<Sample> call(ListView<Sample> v){		
-    					return new SampleListCell(synth);		
+    				@Override
+					public SampleListCell call(ListView<Sample> v){	
+    					SampleListCell cell = new SampleListCell(synth);
+    					return cell;		
     				}		
     			});		
+
     	samplesView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);		
         samplesView.setOrientation(Orientation.VERTICAL);		
         samplesView.setPrefSize(400,370);
