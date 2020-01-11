@@ -77,12 +77,7 @@ public class MainViewController extends ViewController<Main>{
 			waveFile = WaveData.create(new BufferedInputStream( new FileInputStream("assets/bounce.wav")));
 			System.out.print(waveFile.data);
 			audioThread1 = new AudioThread(() ->{
-<<<<<<< HEAD
 				if(!keyPressed) {
-=======
-				if(!shouldGenerate1) {
-					System.out.print("...........");
->>>>>>> katia
 					return null;
 				}
 				System.out.print("::::::::::::::::");
