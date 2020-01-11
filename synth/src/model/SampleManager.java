@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 public class SampleManager {
 	public HashMap<String, Sample> samples = new HashMap<>();
+	String user = System.getProperty("user.name");
 	
 	public SampleManager() {
 		init();
@@ -16,12 +17,13 @@ public class SampleManager {
 	
 	//method to find all samples
 	private void init() {
-        Path dir = Paths.get("/Users/katia/git/synth/synth/assets/samples");
+		
+        Path dir = Paths.get("/Users/"+user+"/git/synth/synth/assets/samples");
 
         try { 
         	DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.wav"); 
             for (Path entry : stream) {
-                Sample s = new Sample("/Users/katia/git/synth/synth/assets/samples/" + entry.getFileName().toString());
+                Sample s = new Sample("/Users/"+user+"/git/synth/synth/assets/samples/" + entry.getFileName().toString());
                 samples.put(entry.getFileName().toString(), s);
             }
             
@@ -32,7 +34,7 @@ public class SampleManager {
         try { 
         	DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.WAV"); 
             for (Path entry : stream) {
-                Sample s = new Sample("/Users/katia/git/synth/synth/assets/samples/" + entry.getFileName().toString());
+                Sample s = new Sample("/Users/"+user+"/git/synth/synth/assets/samples/" + entry.getFileName().toString());
                 samples.put(entry.getFileName().toString(), s);
             }
             

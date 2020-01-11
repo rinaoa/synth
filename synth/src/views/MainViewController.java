@@ -23,7 +23,7 @@ public class MainViewController extends ViewController<Main>{
 	
 	WaveData waveFile;
 	private AudioThread audioThread1;
-	private boolean shouldGenerate1;
+	private boolean keyPressed;
 	private AudioThread audioThread2;
 	private boolean shouldGenerate2;
 	
@@ -69,10 +69,10 @@ public class MainViewController extends ViewController<Main>{
 	
 	private void initializeStreams() {
 		try {
-			waveFile = WaveData.create(new BufferedInputStream( new FileInputStream("assets/Cello_A2.wav" )));
+			waveFile = WaveData.create(new BufferedInputStream( new FileInputStream("assets/bounce.wav")));
 			System.out.print(waveFile.data);
 			audioThread1 = new AudioThread(() ->{
-				if(!shouldGenerate1) {
+				if(!keyPressed) {
 					return null;
 				}
 				return waveFile;
@@ -97,7 +97,7 @@ public class MainViewController extends ViewController<Main>{
 					System.out.println("Key Pressed" + audioThread1.isNotKilled());
 		            if(audioThread1.isNotKilled()) {
 		            	System.out.println("-----");
-		            	shouldGenerate1 = true;
+		            	keyPressed = true;
 		            	audioThread1.triggerPlayback();
 		            }
 				}              
@@ -107,7 +107,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -122,7 +122,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -132,7 +132,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -147,7 +147,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -157,7 +157,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -172,7 +172,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -182,7 +182,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -197,7 +197,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -207,7 +207,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -222,7 +222,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -232,7 +232,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -247,7 +247,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -257,7 +257,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -272,7 +272,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -282,7 +282,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -297,7 +297,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -307,7 +307,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -322,7 +322,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -332,7 +332,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -347,7 +347,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -357,7 +357,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -372,7 +372,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -382,7 +382,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});
@@ -397,7 +397,7 @@ public class MainViewController extends ViewController<Main>{
 						System.out.println("Key Pressed" + audioThread1.isNotKilled());
 			            if(audioThread1.isNotKilled()) {
 			            	System.out.println("-----");
-			            	shouldGenerate1 = true;
+			            	keyPressed = true;
 			            	audioThread1.triggerPlayback();
 			            }
 					}              
@@ -407,7 +407,7 @@ public class MainViewController extends ViewController<Main>{
 				@Override
 				public void handle(MouseEvent event) {
 					System.out.println("Key Released" + audioThread1.isNotKilled());
-					shouldGenerate1 = false;
+					keyPressed = false;
 					audioThread1.pause();
 				}              
 		});

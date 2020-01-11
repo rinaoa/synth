@@ -35,12 +35,11 @@ public class AudioThread extends Thread{
 			
 			alcMakeContextCurrent(context);
 			AL.createCapabilities(ALC.createCapabilities(device));
-			source = alGenSources();
+			source = alGenSources(); // create empty player
 		try {
 			WaveData waveFile = WaveData.create(new BufferedInputStream(new FileInputStream(waveFileName)));
 			bufferSamples(waveFile);
 			
-			alSourcePlay(source);
 			catchInternalException();
 			start();
 		} catch (FileNotFoundException e) {
@@ -63,6 +62,7 @@ public class AudioThread extends Thread{
 				System.out.print("..\n");
 				WaveData sample = bufferSupplier.get();
 				if(sample == null) {
+//				 	System.out.println(sample.format);
 					paused = true; 
 					break;
 				}
@@ -110,8 +110,8 @@ public class AudioThread extends Thread{
 	}
 	
 	private void bufferSamples(WaveData sample) {
-		alBufferData(buffer, sample.format, sample.data, sample.samplerate);
-		alSourceQueueBuffers(source, buffer);
+		alBufferData(buffer, sample.format, sample.data, sample.samplerate); //fill the empty buffer(audio) with frequencies
+		alSourceQueueBuffers(source, buffer); // load the audio(buffer) in the player queue
 	}
 	
 	private void catchInternalException() {
