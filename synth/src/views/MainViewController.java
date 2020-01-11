@@ -92,44 +92,39 @@ public class MainViewController extends ViewController<Main>{
 	
 	private void initializeListeners(){
 	System.out.println("\n////......./////////\n");
-	 
+	
+	//+
 	keyboardView.setOnDragEntered(new EventHandler<DragEvent>(){
 		 @Override
 	     public void handle(DragEvent dragEvent){
 		     System.out.println("setOnDragEntered");
 		     
 		     keyboardView.setBlendMode(BlendMode.OVERLAY);
-	     }
-	   });
+		 }
+	 });
 	 
 	 keyboardView.setOnDragOver(new EventHandler<DragEvent>(){
-		     @Override
-		     public void handle(DragEvent dragEvent){
-			     System.out.println("setOnDragOver");
-			     
-			     dragEvent.acceptTransferModes(TransferMode.MOVE);
-		     }
-		     });
+	     @Override
+	     public void handle(DragEvent dragEvent){
+		     System.out.println("setOnDragOver");
+		     
+		     dragEvent.acceptTransferModes(TransferMode.COPY);
+	     }
+     });
 	  
 	 keyboardView.setOnDragExited(new EventHandler<DragEvent>(){
 	     @Override
 	     public void handle(DragEvent dragEvent){
 		     System.out.println("setOnDragExited");
 	     
-	     keyboardView.setBlendMode(null);
-	 }
+		     keyboardView.setBlendMode(null);
+	     }
 	 });
 	 
 	keyboardView.setOnDragDropped(new EventHandler<DragEvent>(){
 	     @Override
 	     public void handle(DragEvent dragEvent){
 		     System.out.println("setOnDragDropped");
-		     
-	//	     String player = dragEvent.getDragboard().getString();
-	//	     
-	//	     keyboardView.getItems().addAll(new Player(player));
-	//	     
-	//	     playersList.remove(new Player(player));
 		     
 		     dragEvent.setDropCompleted(true);
 	     }
