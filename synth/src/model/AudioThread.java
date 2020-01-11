@@ -81,7 +81,7 @@ public class AudioThread extends Thread{
 		running = true;
 		notify();
 	}
-	void close() {
+	public void close() {
 		closed = true;
 		triggerPlayback();
 	}

@@ -1,10 +1,14 @@
- package application;
+package application;
 	
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import com.sun.javafx.stage.WindowCloseRequestHandler;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -13,6 +17,7 @@ import model.Synthesizer;
 import views.MainViewController;
 import views.ViewController;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 
@@ -45,7 +50,8 @@ public class Main extends Application {
 			Scene scene = new Scene(root,800,600);
 			
 			scene.setOnKeyPressed((KeyEvent event) -> {
-	            System.out.println("Key Pressed");
+				KeyCode kCode= event.getCode();
+				System.out.println("Key Pressed"+kCode.getName());
 	            if(!audioThread.isRunning()) {
 	            	System.out.println("-----");
 	            	shouldGenerate = true;
@@ -56,6 +62,10 @@ public class Main extends Application {
 			scene.setOnKeyReleased((KeyEvent event) -> {
             	shouldGenerate = false;
 	        });
+			
+//			primaryStage.onCloseRequestProperty().addListener(WindowCloseRequestHandler -> {
+//					audioThread.close();
+//			});
 			
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
