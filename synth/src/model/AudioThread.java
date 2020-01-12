@@ -15,7 +15,6 @@ import org.lwjgl.openal.ALC;
 import model.wave.WaveData;
 public class AudioThread extends Thread{
 
-	public static final int BUFFER_SIZE = 512;
 
 	private final Supplier<WaveData> bufferSupplier;
 	private int buffer;
