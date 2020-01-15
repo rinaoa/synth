@@ -43,7 +43,7 @@ public class SettingsViewController extends ViewController<Main>{
 	       public void handle(MouseEvent event){
 	          System.out.println("setOnDragDetected");
 	       
-	          Dragboard dragBoard = samplesView.startDragAndDrop(TransferMode.COPY);
+	          Dragboard dragBoard = samplesView.startDragAndDrop(TransferMode.ANY);
 	          ClipboardContent content = new ClipboardContent();
 	          content.putString(samplesView.getSelectionModel().getSelectedItem().getName());
 	          dragBoard.setContent(content);

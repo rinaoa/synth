@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import application.Main;
 import javafx.event.EventHandler;
@@ -19,6 +20,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import model.AudioThread;
+import model.Sample;
 import model.Synthesizer;
 import model.wave.WaveData;
 import ui.*;
@@ -26,7 +28,7 @@ import ui.*;
 public class MainViewController extends ViewController<Main>{
 	Synthesizer synth;
 	
-	WaveData waveFile;
+	Sample currentSample; //use Sample instead
 	private AudioThread audioThread1;
 	private boolean keyPressed;
 	private AudioThread audioThread2;
@@ -49,7 +51,6 @@ public class MainViewController extends ViewController<Main>{
 	
 	public MainViewController(Main application, Synthesizer s) {
 		super(application);
-		
 		this.synth = s;
 		rootView = new MainView(synth, application);
 		MainView view = (MainView) rootView;
@@ -69,24 +70,22 @@ public class MainViewController extends ViewController<Main>{
 		btn12 = keyboardView.btn12;
 		btn13 = keyboardView.btn13;
 		
+		currentSample = new Sample("assets/bounce.wav");
 		initialize();
 	}
 	
 	private void initializeStreams() {
-		try {
-			waveFile = WaveData.create(new BufferedInputStream( new FileInputStream("assets/bounce.wav")));
-			System.out.print(waveFile.data);
-			audioThread1 = new AudioThread(() ->{
-				if(!keyPressed) {
-					return null;
-				}
-				System.out.print("::::::::::::::::");
-				return waveFile;
-			});
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} 
+		audioThread1 = new AudioThread(() ->{
+			if(!keyPressed) {
+				return null;
+			}
+			System.out.print("::::::::::::::::");
+			return currentSample.getWaveData();
+		});
+	}
+	
+	private void setSample(Sample sample) {
+		currentSample = sample;
 	}
 	
 	private void initializeListeners(){
@@ -107,7 +106,7 @@ public class MainViewController extends ViewController<Main>{
 	     public void handle(DragEvent dragEvent){
 		     System.out.println("setOnDragOver");
 		     
-		     dragEvent.acceptTransferModes(TransferMode.COPY);
+		     dragEvent.acceptTransferModes(TransferMode.ANY);
 	     }
      });
 	  
@@ -123,9 +122,19 @@ public class MainViewController extends ViewController<Main>{
 	keyboardView.setOnDragDropped(new EventHandler<DragEvent>(){
 	     @Override
 	     public void handle(DragEvent dragEvent){
-		     System.out.println("setOnDragDropped");
-		     
-		     dragEvent.setDropCompleted(true);
+		     try {
+		    	 System.out.println("setOnDragDropped");
+		    	 List<File> files = dragEvent.getDragboard().getFiles();
+		         System.out.println("Got " + files.size() + " files");
+	//		     setSample(dragEvent.getDragboard().getFiles());
+			     dragEvent.setDropCompleted(true);
+		     } catch (Exception e) {
+		    	 dragEvent.setDropCompleted(false);
+		    	 e.printStackTrace(); 
+	    	 } 
+		     finally {
+		    	 dragEvent.consume(); 
+	    	 }
 	     }
 	     });
 	 }
