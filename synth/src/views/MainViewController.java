@@ -27,6 +27,20 @@ public class MainViewController extends ViewController<Main>{
 	private AudioThread audioThread2;
 	private boolean shouldGenerate2;
 	
+	public final static float C = 0.5f;
+	public final static float CIS = 0.55f;
+	public final static float D = 0.6f;
+	public final static float DIS = 0.65f;
+	public final static float E = 0.7f;
+	public final static float F = 0.75f;
+	public final static float FIS = 0.8f;
+	public final static float G = 0.85f;
+	public final static float GIS = 0.9f;
+	public final static float A = 0.95f;
+	public final static float AIS = 1.0f;
+	public final static float H = 1.05f;
+	public final static float C2 = 1.1f;
+	
 	KeyboardView keyboardView;
 	Button btn1;
 	Button btn2;
@@ -83,107 +97,94 @@ public class MainViewController extends ViewController<Main>{
 		} 
 	}
 	
+	public void playKey(float d) {
+		audioThread1.setPitch(d);
+		System.out.println("Key Pressed" + audioThread1.isNotKilled());
+        if(audioThread1.isNotKilled()) {
+        	System.out.println("-----");
+        	keyPressed = true;
+        	audioThread1.triggerPlayback();
+        }
+	}
+	
+	public void pauseKey() {
+		System.out.println("Key Released" + audioThread1.isNotKilled());
+		keyPressed = false;
+		audioThread1.pause();
+	}
+	
 	@Override
 	public void initialize() {
 		initializeStreams();
 		//
-		// A
+		// C
 		//
+		
+		
+		
 		btn1.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.5f);
-					System.out.println("Key Pressed" + audioThread1.isNotKilled());
-		            if(audioThread1.isNotKilled()) {
-		            	System.out.println("-----");
-		            	keyPressed = true;
-		            	audioThread1.triggerPlayback();
-		            }
+					playKey((synth.getOctave() * 0.8f)+ C);
 				}              
 		});
 		btn1.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// B
+		// Cis
 		//
 		btn2.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.55f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ CIS);
 					}              
 			});
 		btn2.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// C
+		// D
 		//
 		btn3.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.6f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ D);
 					}              
 			});
 		btn3.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// D
+		// Dis
 		//
 		btn4.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.65f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ DIS);
 					}              
 			});
 		btn4.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
@@ -193,22 +194,14 @@ public class MainViewController extends ViewController<Main>{
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.7f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ E);
 					}              
 			});
 		btn5.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
@@ -218,197 +211,133 @@ public class MainViewController extends ViewController<Main>{
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.8f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ F);
 					}              
 			});
 		btn6.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// G
+		// Fis
 		//
 		btn7.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.85f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ FIS);
 					}              
 			});
 		btn7.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// H
+		// G
 		//
 		btn8.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.9f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ G);
 					}              
 			});
 		btn8.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// I
+		// Gis
 		//
 		btn9.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 0.95f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ GIS);
 					}              
 			});
 		btn9.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// J
+		// A
 		//
 		btn10.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 1.0f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ A);
 					}              
 			});
 		btn10.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
-				}              
+					pauseKey();     
+				}
 		});
 		//
-		// K
+		// Ais
 		//
 		btn11.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 1.05f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ AIS);
 					}              
 			});
 		btn11.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// L
+		// H
 		//
 		btn12.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 1.1f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ H);
 					}              
 			});
 		btn12.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		//
-		// M
+		// C
 		//
 		btn13.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						audioThread1.setPitch((synth.getOctave() * 0.8f)+ 1.2f);
-						System.out.println("Key Pressed" + audioThread1.isNotKilled());
-			            if(audioThread1.isNotKilled()) {
-			            	System.out.println("-----");
-			            	keyPressed = true;
-			            	audioThread1.triggerPlayback();
-			            }
+						playKey((synth.getOctave() * 0.8f)+ C2);
 					}              
 			});
 		btn13.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 			new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println("Key Released" + audioThread1.isNotKilled());
-					keyPressed = false;
-					audioThread1.pause();
+					pauseKey();
 				}              
 		});
 		
