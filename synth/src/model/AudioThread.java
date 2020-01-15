@@ -13,10 +13,8 @@ import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.ALC;
 
 import model.wave.WaveData;
-//idea > pitch the sound for every button
 public class AudioThread extends Thread{
 
-	public static final int BUFFER_SIZE = 512;
 
 	private final Supplier<WaveData> bufferSupplier;
 	private int buffer;
@@ -59,7 +57,7 @@ public class AudioThread extends Thread{
 			
 			int processedBuffs = alGetSourcei(source, AL_BUFFERS_PROCESSED);
 			for(int i = 0; i < processedBuffs; i++) {
-				System.out.print("..\n");
+				
 				WaveData sample = bufferSupplier.get();
 				if(sample == null) {
 //				 	System.out.println(sample.format);

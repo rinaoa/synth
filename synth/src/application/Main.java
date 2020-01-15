@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import model.AudioThread;
 import model.Synthesizer;
 import model.wave.WaveData;
+import ui.SettingsView;
+import ui.SettingsViewController;
 import views.MainViewController;
 import views.ViewController;
 import javafx.scene.Scene;
