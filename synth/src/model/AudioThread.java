@@ -1,6 +1,7 @@
 package model;
 
 import static org.lwjgl.openal.AL10.*;
+
 import static org.lwjgl.openal.ALC10.*;
 
 import java.io.BufferedInputStream;
@@ -14,29 +15,28 @@ import org.lwjgl.openal.ALC;
 
 import model.wave.WaveData;
 public class AudioThread extends Thread{
+	Sample sss;
+	WaveData sample;
 
-
-	private final Supplier<WaveData> bufferSupplier;
+	private final Supplier<Sample> bufferSupplier;
 	private int buffer;
 	private final long device = alcOpenDevice(alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER));
 	private final long context = alcCreateContext(device, new int [1]);
-	private final int source;
+	private int source;
 
-	private String waveFileName;
 	private boolean running;
-	private boolean paused;
+	private boolean paused = true;
 	private boolean killThread = false;
 	
-	public AudioThread(Supplier<WaveData> supplier) {
+	public AudioThread(Supplier<Sample> supplier) {
 			this.bufferSupplier = supplier;
-			this.waveFileName = "assets/Cello_A2.wav";
 			
 			alcMakeContextCurrent(context);
 			AL.createCapabilities(ALC.createCapabilities(device));
-			source = alGenSources(); // create empty player
+			source = alGenSources();
 		try {
-			WaveData waveFile = WaveData.create(new BufferedInputStream(new FileInputStream(waveFileName)));
-			bufferSamples(waveFile);
+			sample = WaveData.create(new BufferedInputStream(new FileInputStream("assets/samples/bounce.wav")));
+			bufferSamples(sample);
 			
 			catchInternalException();
 			start();
@@ -48,21 +48,21 @@ public class AudioThread extends Thread{
 	@Override
 	public synchronized void run() {
 		try {
-		while(!running) {			
+		while(!running) {	
 			while(paused) {
-				alSourcePause(source);
-				alSourceRewind(source);
+				AL10.alSourceStop(source);
 				wait();
 			}
 			
 			int processedBuffs = alGetSourcei(source, AL_BUFFERS_PROCESSED);
 			for(int i = 0; i < processedBuffs; i++) {
-				
-				WaveData sample = bufferSupplier.get();
+				sss=bufferSupplier.get();
+				sample = sss.getWaveData();
 				if(sample == null) {
-//				 	System.out.println(sample.format);
 					paused = true; 
 					break;
+				}else {
+					System.out.print("\nPLAYING: " + sss.getName()+ "\n");
 				}
 				alDeleteBuffers(alSourceUnqueueBuffers(source));
 				buffer = alGenBuffers();
@@ -86,9 +86,7 @@ public class AudioThread extends Thread{
 			e.printStackTrace();
 		}
 	}
-	public void setWaveFile(String path) {
-		
-	}
+
 	public void setPitch(float d) {
 		AL10.alSourcef(source, AL_PITCH, d);
 	}

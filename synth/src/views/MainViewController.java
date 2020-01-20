@@ -1,16 +1,22 @@
 package views;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import application.Main;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.effect.BlendMode;
@@ -21,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import model.AudioThread;
 import model.Sample;
+import model.SampleManager;
 import model.Synthesizer;
 import model.wave.WaveData;
 import ui.*;
@@ -33,6 +40,7 @@ public class MainViewController extends ViewController<Main>{
 	private boolean keyPressed;
 	private AudioThread audioThread2;
 	private boolean shouldGenerate2;
+	private SampleManager sampleManager;
 	
 	public final static float C = 0.5f;
 	public final static float CIS = 0.55f;
@@ -63,9 +71,10 @@ public class MainViewController extends ViewController<Main>{
 	Button btn12;
 	Button btn13;
 	
-	public MainViewController(Main application, Synthesizer s) {
+	public MainViewController(Main application, Synthesizer s, SampleManager sm) {
 		super(application);
 		this.synth = s;
+		this.sampleManager = sm;
 		rootView = new MainView(synth, application);
 		MainView view = (MainView) rootView;
 		
@@ -84,7 +93,7 @@ public class MainViewController extends ViewController<Main>{
 		btn12 = keyboardView.btn12;
 		btn13 = keyboardView.btn13;
 		
-		currentSample = new Sample("assets/bounce.wav");
+		currentSample = synth.currentSample.getValue();
 		initialize();
 	}
 	
@@ -94,12 +103,8 @@ public class MainViewController extends ViewController<Main>{
 				return null;
 			}
 			System.out.print("::::::::::::::::");
-			return currentSample.getWaveData();
+			return currentSample;
 		});
-	}
-	
-	private void setSample(Sample sample) {
-		currentSample = sample;
 	}
 	
 	public void playKey(float d) {
@@ -119,53 +124,59 @@ public class MainViewController extends ViewController<Main>{
 	}
 	
 	private void initializeListeners(){
-	System.out.println("\n////......./////////\n");
-	
-	//+
-	keyboardView.setOnDragEntered(new EventHandler<DragEvent>(){
-		 @Override
-	     public void handle(DragEvent dragEvent){
-		     System.out.println("setOnDragEntered");
+		System.out.println("\n////......./////////\n");
+		
+		keyboardView.setOnDragEntered(new EventHandler<DragEvent>(){
+			 @Override
+		     public void handle(DragEvent dragEvent){
+			     System.out.println("setOnDragEntered");
+			     
+			     keyboardView.setBlendMode(BlendMode.OVERLAY);
+			 }
+		 });
+		 
+		 keyboardView.setOnDragOver(new EventHandler<DragEvent>(){
+		     @Override
+		     public void handle(DragEvent dragEvent){
+			     System.out.println("setOnDragOver");
+			     
+			     dragEvent.acceptTransferModes(TransferMode.ANY);
+		     }
+	     });
+		  
+		 keyboardView.setOnDragExited(new EventHandler<DragEvent>(){
+		     @Override
+		     public void handle(DragEvent dragEvent){
+			     System.out.println("setOnDragExited");
 		     
-		     keyboardView.setBlendMode(BlendMode.OVERLAY);
-		 }
-	 });
-	 
-	 keyboardView.setOnDragOver(new EventHandler<DragEvent>(){
-	     @Override
-	     public void handle(DragEvent dragEvent){
-		     System.out.println("setOnDragOver");
-		     
-		     dragEvent.acceptTransferModes(TransferMode.ANY);
-	     }
-     });
-	  
-	 keyboardView.setOnDragExited(new EventHandler<DragEvent>(){
-	     @Override
-	     public void handle(DragEvent dragEvent){
-		     System.out.println("setOnDragExited");
-	     
-		     keyboardView.setBlendMode(null);
-	     }
-	 });
-	 
-	keyboardView.setOnDragDropped(new EventHandler<DragEvent>(){
-	     @Override
-	     public void handle(DragEvent dragEvent){
-		     try {
-		    	 System.out.println("setOnDragDropped");
-		    	 List<File> files = dragEvent.getDragboard().getFiles();
-		         System.out.println("Got " + files.size() + " files");
-	//		     setSample(dragEvent.getDragboard().getFiles());
-			     dragEvent.setDropCompleted(true);
-		     } catch (Exception e) {
-		    	 dragEvent.setDropCompleted(false);
-		    	 e.printStackTrace(); 
-	    	 } 
-		     finally {
-		    	 dragEvent.consume(); 
-	    	 }
-	     }
+			     keyboardView.setBlendMode(null);
+		     }
+		 });
+		 keyboardView.setOnDragDropped(new EventHandler<DragEvent>(){
+		     @Override
+		     public void handle(DragEvent dragEvent){
+			     try {
+			    	 System.out.print("Drag dropped");
+		            Dragboard db = dragEvent.getDragboard();
+		            boolean success = false;
+		 
+		            if (db.hasString()) {	 
+		                System.out.print(db.getString());
+		                System.out.print(sampleManager.samples.keySet());
+		                synth.setSample(sampleManager.samples.get(db.getString()));
+		                success = true;
+		            }
+		            dragEvent.setDropCompleted(success);
+		 
+		            dragEvent.consume();
+			     } catch (Exception e) {
+			    	 dragEvent.setDropCompleted(false);
+			    	 e.printStackTrace(); 
+		    	 } 
+			     finally {
+			    	 dragEvent.consume(); 
+		    	 }
+		     }
 	     });
 	 }
 	@Override
@@ -175,8 +186,6 @@ public class MainViewController extends ViewController<Main>{
 		//
 		// C
 		//
-		
-		
 		
 		btn1.addEventFilter(MouseEvent.MOUSE_PRESSED,                
 			new EventHandler<MouseEvent>() {
@@ -397,6 +406,18 @@ public class MainViewController extends ViewController<Main>{
 				}              
 		});
 		
+		synth.currentSampleProperty().addListener(new ChangeListener<Sample>() {
+			@Override
+			public void changed(ObservableValue<? extends Sample> observable, Sample oldValue, Sample newValue) {
+				Platform.runLater(() ->{
+					try {
+						currentSample = newValue;
+					} 
+					
+					catch (Exception e) { e.printStackTrace(); }
+				});
+			}
+		});
 	}
 
 }

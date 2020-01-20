@@ -38,23 +38,23 @@ public class SettingsViewController extends ViewController<Main>{
 	
 	private void initializeListeners(){
 		System.out.println("////////////////");
-		samplesView.setOnDragDetected(new EventHandler<MouseEvent>() {
-	       @Override
-	       public void handle(MouseEvent event){
-	          System.out.println("setOnDragDetected");
-	       
-	          Dragboard dragBoard = samplesView.startDragAndDrop(TransferMode.ANY);
-	          ClipboardContent content = new ClipboardContent();
-	          content.putString(samplesView.getSelectionModel().getSelectedItem().getName());
-	          dragBoard.setContent(content);
-	       }
-	   });
-	 
-		samplesView.setOnDragDone(new EventHandler<DragEvent>(){
-	       @Override
-	       public void handle(DragEvent dragEvent){
-	    	   System.out.println("setOnDragDone");
-	       }
-       });
+//		samplesView.setOnDragDetected(new EventHandler<MouseEvent>() {
+//	       @Override
+//	       public void handle(MouseEvent event){
+//	          System.out.println("setOnDragDetected");
+//	          
+//	          Dragboard dragBoard = samplesView.startDragAndDrop(TransferMode.ANY);
+//	          ClipboardContent content = new ClipboardContent();
+//	          content.putString(samplesView.getSelectionModel().getSelectedItem().getName());
+//	          dragBoard.setContent(content);
+//	       }
+//	   });
+//	 
+//		samplesView.setOnDragDone(new EventHandler<DragEvent>(){
+//	       @Override
+//	       public void handle(DragEvent dragEvent){
+//	    	   System.out.println("setOnDragDone");
+//	       }
+//       });
 	 }
 }

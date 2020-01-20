@@ -50,6 +50,7 @@ public class SettingsView extends VBox{
     	samplesView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);		
         samplesView.setOrientation(Orientation.VERTICAL);		
         samplesView.setPrefSize(400,370);
+        samplesView.setEditable(true);
         
         getChildren().add(samplesView);
         

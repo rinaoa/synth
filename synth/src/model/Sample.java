@@ -3,10 +3,11 @@ package model;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 
 import model.wave.WaveData;
 
-public class Sample {
+public class Sample implements Serializable{
 	String path;
 	WaveData waveFile;
 	

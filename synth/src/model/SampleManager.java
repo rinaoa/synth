@@ -24,9 +24,8 @@ public class SampleManager {
         	DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.wav"); 
             for (Path entry : stream) {
                 Sample s = new Sample("/Users/"+user+"/git/synth/synth/assets/samples/" + entry.getFileName().toString());
-                samples.put(entry.getFileName().toString(), s);
+                samples.put("/Users/"+user+"/git/synth/synth/assets/samples/" + entry.getFileName().toString(), s);
             }
-            
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,7 +34,7 @@ public class SampleManager {
         	DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*.WAV"); 
             for (Path entry : stream) {
                 Sample s = new Sample("/Users/"+user+"/git/synth/synth/assets/samples/" + entry.getFileName().toString());
-                samples.put(entry.getFileName().toString(), s);
+                samples.put("/Users/"+user+"/git/synth/synth/assets/samples/" + entry.getFileName().toString(), s);
             }
             
         } catch (IOException e) {
