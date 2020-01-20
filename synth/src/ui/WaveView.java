@@ -25,7 +25,7 @@ public class WaveView extends AnchorPane{
 		lbl = new Label("WaveView");
 		getChildren().addAll(r, lbl);
 		
-		setWidth(500);
+		setWidth(497);
 		setHeight(300);
 	}
 

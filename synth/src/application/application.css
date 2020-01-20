@@ -1,16 +1,23 @@
+#octave-button{
+	-fx-min-width: 150px;
+    -fx-min-height: 70px;
+	-fx-background-color: rgba(0,0,0,0.1);
+}
 #a-icon {
-	-fx-background-image: url("../../assets/keys/a.png");
+	-fx-background-image: url("../../assets/keys/linksW.png");
 }
 #b-icon {
-	-fx-background-color: black;
-	-fx-background-position: top left;	
-	-fx-background-insets: 0 0 80 0;
+	-fx-background-size: 41px 131px;	
+	-fx-background-image: url("../../assets/keys/schwarz.png");
+    -fx-min-height: 131px;
+    -fx-background-position: top;
+    
 }
 #c-icon {
-	-fx-background-image: url("../../assets/keys/c.png");
+	-fx-background-image: url("../../assets/keys/Mitte.png");
 }
 #d-icon {
-	-fx-background-image: url("../../assets/keys/d.png");
+	-fx-background-image: url("../../assets/keys/rechtsW.png");
 }
 #e-icon {
 	-fx-background-image: url("../../assets/keys/e.png");
@@ -19,10 +26,10 @@
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 9, 0.0 , 0 , 1 );
 }
 .icon-button {
-  -fx-min-width: 37px;
+  -fx-min-width: 71px;
   -fx-min-height: 200px;
-  -fx-background-color: white;
+  -fx-background-color: transparent;
+  -fx-background-repeat: no-repeat no-repeat;
+  -fx-background-size: 71px 200px;	
   -fx-background-position:center;
-  -fx-border-color:black;
-  -fx-border-width: 1 1 1 1;
 }

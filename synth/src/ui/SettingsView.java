@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -25,9 +27,13 @@ public class SettingsView extends VBox{
 	ObservableList<Sample> observableList;
 	Label lbl = new Label("Settings");
 	Synthesizer synth;
+	Button octaveMinusBtn;
+	Button octavePlusBtn;
+	VBox buttonsPane;
 	
 	public SettingsView(Synthesizer s) {
 		this.synth = s;
+		this.buttonsPane = new VBox();
     	this.setBackground(new Background(new BackgroundFill(Color.rgb(12, 82, 10, 0.3), CornerRadii.EMPTY, Insets.EMPTY)));
     	
 	    this.observableList = FXCollections.observableArrayList();		
@@ -49,12 +55,25 @@ public class SettingsView extends VBox{
 
     	samplesView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);		
         samplesView.setOrientation(Orientation.VERTICAL);		
-        samplesView.setPrefSize(400,370);
+        samplesView.setPrefSize(203, 300);
         samplesView.setEditable(true);
         
-        getChildren().add(samplesView);
+        this.octaveMinusBtn = new Button("Octave -");
+        this.octavePlusBtn = new Button("Octave +");
+       
+        buttonsPane.getChildren().addAll(octavePlusBtn, octaveMinusBtn);
+        getChildren().addAll(samplesView, buttonsPane);
         
-		this.setWidth(200);
+        buttonsPane.setPadding(new Insets(15));
+        buttonsPane.setSpacing(10);
+        buttonsPane.setPrefSize(203, 200);
+        octavePlusBtn.setId("octave-button"); 
+        octaveMinusBtn.setId("octave-button"); 
+        
+        buttonsPane.setAlignment(Pos.CENTER);
+
+        
+		this.setWidth(203);
 		this.setHeight(500);
 	}
 }

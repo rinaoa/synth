@@ -30,6 +30,6 @@ public class MainView extends AnchorPane {
         AnchorPane.setTopAnchor(keyboardView, waveView.getHeight());
         
         getChildren().add(settingsView);
-        AnchorPane.setLeftAnchor(settingsView, 500.0);
+        AnchorPane.setLeftAnchor(settingsView, 497.0);
 	}
 }
