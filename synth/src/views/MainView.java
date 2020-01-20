@@ -1,9 +1,15 @@
 package views;
 
 import application.Main;
+
 import javafx.scene.layout.AnchorPane;
+import model.AudioThread;
 import model.Synthesizer;
-import ui.*;
+import ui.KeyboardView;
+import ui.SettingsView;
+import ui.SettingsViewController;
+import ui.WaveView;
+
 
 public class MainView extends AnchorPane {
 	WaveView waveView;
