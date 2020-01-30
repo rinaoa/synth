@@ -2,6 +2,7 @@ package model;
 
 import static org.lwjgl.openal.AL10.*;
 
+
 import static org.lwjgl.openal.ALC10.*;
 
 import java.io.BufferedInputStream;
@@ -12,12 +13,20 @@ import java.util.function.Supplier;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.ALC;
+import org.newdawn.slick.openal.WaveData;
 
-import model.wave.WaveData;
+import javafx.application.Platform;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 public class AudioThread extends Thread{
+	
 	Sample sss;
 	WaveData sample;
-
+	GraphicsContext gc;
+	volatile int x = 0;
+	volatile int prevY = -1111111111;
+	
 	private final Supplier<Sample> bufferSupplier;
 	private int buffer;
 	private final long device = alcOpenDevice(alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER));
@@ -28,8 +37,9 @@ public class AudioThread extends Thread{
 	private boolean paused = true;
 	private boolean killThread = false;
 	
-	public AudioThread(Supplier<Sample> supplier) {
+	public AudioThread(Supplier<Sample> supplier, GraphicsContext g) {
 			this.bufferSupplier = supplier;
+			this.gc = g;
 			
 			alcMakeContextCurrent(context);
 			AL.createCapabilities(ALC.createCapabilities(device));
@@ -51,6 +61,7 @@ public class AudioThread extends Thread{
 		while(!running) {	
 			while(paused) {
 				AL10.alSourceStop(source);
+				x = 0;
 				wait();
 			}
 			
@@ -59,19 +70,30 @@ public class AudioThread extends Thread{
 				sss=bufferSupplier.get();
 				sample = sss.getWaveData();
 				if(sample == null) {
-					paused = true; 
+					paused = true;
 					break;
 				}else {
 					System.out.print("\nPLAYING: " + sss.getName()+ "\n");
+//					System.out.print("*" + sss.getWaveData().data.getShort() + "\n"); 
+					System.out.print("*****" + sss.getWaveData().data.remaining() + "\n"); 
+//					drawStuff(sss.getWaveData().data.getShort());
 				}
+
 				alDeleteBuffers(alSourceUnqueueBuffers(source));
 				buffer = alGenBuffers();
 				bufferSamples(sample);
 			}
-			
 			if(alGetSourcei(source, AL_SOURCE_STATE) != AL_PLAYING) {
+				x = 500;
 				alSourcePlay(source);
 			}
+			if(sss != null) {
+				short ddd = bufferSupplier.get().getWaveData().data.get();
+				System.out.print("\n@@@@@@@ " + ddd);
+				drawStuff(ddd);
+			}
+			
+			System.out.print(">>>>>FREQ: " + alGetBufferi(buffer, AL_FREQUENCY)  + "\n"); 
 			catchInternalException();
 		}
 		
@@ -115,5 +137,31 @@ public class AudioThread extends Thread{
 		if (err != ALC_NO_ERROR) {
 			throw new RuntimeException();
 		}
+	}
+	
+	private void drawStuff(short y) {
+		Platform.runLater(() ->{
+	        if (x==500) {
+//	        	gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
+//	        	gc.clearRect(0, 0, gc.getCanvas().getWidth(), -gc.getCanvas().getHeight());
+	        	//x = 0;
+	        }else {
+	        	if(prevY == -1111111111) {
+	        		System.out.println("\n SETTTT" + y);
+	        		prevY = y;
+	        		System.out.println("\n RESETTTT" + y);
+	        	}else {
+	        		gc.setFill(Color.GREEN);
+			        gc.setStroke(Color.RED);
+			        gc.setLineWidth(1);
+//			        int yy = map(y, -150, 150, min, max);
+			        gc.strokeLine(x-20, prevY, x, y); 
+			        System.out.println("\n Line drawn: ");
+			        System.out.println(x-20 + "," + prevY + "-> " + x + "," + y);
+			        prevY = y;
+	        	}
+	        	x += 20; 
+	        }
+		});
 	}
 }

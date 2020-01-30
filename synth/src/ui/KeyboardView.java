@@ -70,7 +70,6 @@ public class KeyboardView extends AnchorPane{
 		AnchorPane.setLeftAnchor(btn6, 213.0); 
 		AnchorPane.setLeftAnchor(btn7, 248.0); 
 		AnchorPane.setLeftAnchor(btn8, 284.0); 
-		AnchorPane.setLeftAnchor(btn8, 284.0); 
 		AnchorPane.setLeftAnchor(btn9, 319.0); 
 		AnchorPane.setLeftAnchor(btn10, 355.0); 
 		AnchorPane.setLeftAnchor(btn11, 390.0); 

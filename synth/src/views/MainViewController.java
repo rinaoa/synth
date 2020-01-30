@@ -1,6 +1,7 @@
 package views;
 
 import java.io.BufferedInputStream;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,7 +30,6 @@ import model.AudioThread;
 import model.Sample;
 import model.SampleManager;
 import model.Synthesizer;
-import model.wave.WaveData;
 import ui.*;
 
 public class MainViewController extends ViewController<Main>{
@@ -71,12 +71,16 @@ public class MainViewController extends ViewController<Main>{
 	Button btn12;
 	Button btn13;
 	
+	WaveView waveView;
+	
 	public MainViewController(Main application, Synthesizer s, SampleManager sm) {
 		super(application);
 		this.synth = s;
 		this.sampleManager = sm;
 		rootView = new MainView(synth, application);
 		MainView view = (MainView) rootView;
+		
+		waveView = view.waveView;
 		
 		keyboardView = view.keyboardView;
 		btn1 = keyboardView.btn1;
@@ -104,7 +108,7 @@ public class MainViewController extends ViewController<Main>{
 			}
 			System.out.print("::::::::::::::::");
 			return currentSample;
-		});
+		}, waveView.gc);
 	}
 	
 	public void playKey(float d) {
