@@ -68,7 +68,7 @@ public class OscillatorView extends GridPane {
 		ObservableList<Waveform> oList = FXCollections.observableArrayList(Waveform.Sine, Waveform.Square, Waveform.Triangle, Waveform.Saw, Waveform.Noise);
 		choicebox = new ChoiceBox<>(oList);
 		choicebox.setValue(osc.getWaveform());
-		setBackground(new Background(new BackgroundFill(Color.DARKSLATEGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+		setBackground(new Background(new BackgroundFill(Color.GREY, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		active.setSelected(true);
 		

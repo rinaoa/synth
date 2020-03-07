@@ -40,13 +40,13 @@ public class WaveView extends Pane{
 	public void drawWave() {
 		
 		gc.restore();
-		gc.setFill(Color.CADETBLUE);
+		gc.setFill(new Color(0.5, 0.6, 0.7, 0.3));
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		gc.setLineWidth(3.);
+		gc.setLineWidth(1.);
 		gc.beginPath();
 		gc.moveTo(PAD, midY);
 		gc.lineTo(canvas.getWidth() - PAD, midY);
-		gc.setStroke(Color.ANTIQUEWHITE);
+		gc.setStroke(Color.BLACK);
 //		gc.closePath();
 		gc.stroke();
 		
