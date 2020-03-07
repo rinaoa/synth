@@ -37,8 +37,8 @@ public class WaveView extends AnchorPane{
     	gc.translate(PAD, midY);
 		gc.strokeOval(0, 0, 10, 10);
 		
-		double[] res = getMagnitudes("assets/samples/Cello A2.wav");
-		drawStuff(res);
+//		double[] res = getMagnitudes("assets/samples/Cello A2.wav");
+//		drawStuff(res);
 
 		getChildren().add(canvas);
 		setWidth(canvas.getWidth());
@@ -82,7 +82,7 @@ public class WaveView extends AnchorPane{
 	        gc.setStroke(Color.BLUE);
 
 			for(int i = 1; i < res.length - PAD; i++) {
-				gc.strokeLine(i-1, - res[i-1]*100, i, - res[i]*100);
+ 				gc.strokeLine(i-1, - res[i-1]*100, i, - res[i]*100);
 				System.out.print(res[i]*100 + "\n");
 			}
 		});

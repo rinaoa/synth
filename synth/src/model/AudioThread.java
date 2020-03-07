@@ -73,9 +73,9 @@ public class AudioThread extends Thread{
 					paused = true;
 					break;
 				}else {
-					System.out.print("\nPLAYING: " + sss.getName()+ "\n");
+//					System.out.print("\nPLAYING: " + sss.getName()+ "\n");
 //					System.out.print("*" + sss.getWaveData().data.getShort() + "\n"); 
-					System.out.print("*****" + sss.getWaveData().data.remaining() + "\n"); 
+//					System.out.print("*****" + sss.getWaveData().data.remaining() + "\n"); 
 //					drawStuff(sss.getWaveData().data.getShort());
 				}
 
@@ -89,7 +89,7 @@ public class AudioThread extends Thread{
 			}
 			if(sss != null) {
 				short ddd = bufferSupplier.get().getWaveData().data.get();
-				System.out.print("\n@@@@@@@ " + ddd);
+//				System.out.print("\n@@@@@@@ " + ddd);
 				drawStuff(ddd);
 			}
 			

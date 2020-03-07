@@ -1,5 +1,11 @@
 package application;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.nio.ByteBuffer;
+
+import org.newdawn.slick.openal.WaveData;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.SampleManager;
@@ -26,7 +32,15 @@ public class Main extends Application {
 			controller = new MainViewController(this, synth, sampleManager);
 			Pane root = controller.getRootView();
 			this.scene = new Scene(root, 700, 500);
+			////
 			
+			WaveData sample = WaveData.create(new BufferedInputStream(new FileInputStream("assets/samples/Cello A2.wav")));
+			ByteBuffer byteBuffer = sample.data;
+			double[] doubles = new double[byteBuffer.remaining() / Double.BYTES];
+			for(double d: doubles) {
+				System.out.print("\n^^^^^" + d);
+			}
+			////
 			scene.setOnKeyPressed((KeyEvent event) ->{
 				System.out.println("Key Pressed: "+event.getCode());
 				 switch(event.getCode()) {
