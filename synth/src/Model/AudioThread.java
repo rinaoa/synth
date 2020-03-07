@@ -18,6 +18,7 @@ public class AudioThread extends Thread {
 	
 	private final Supplier<short[]> bufferSupplier;
 	private final int[] buffers= new int[BUFFER_COUNT];
+	
 	private final long device = alcOpenDevice(alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER));
 	private final long context = alcCreateContext(device, new int[1]);
 	private final int source;
@@ -27,6 +28,8 @@ public class AudioThread extends Thread {
 	private int bufferIndex = 0;
 	
 	AudioThread(Supplier<short[]> bufferSupplier) {
+		
+
 		this.bufferSupplier = bufferSupplier;
 		alcMakeContextCurrent(context);
 		AL.createCapabilities(ALC.createCapabilities(device));

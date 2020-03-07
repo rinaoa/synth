@@ -1,4 +1,4 @@
-package ui;
+package UI;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,11 +29,6 @@ public class KeyboardView extends AnchorPane{
 	public Button btn13 = new Button("");
 	
 	public KeyboardView() {		
-//		SVGPath buttonSVG=new SVGPath();
-//		buttonSVG.setContent(getPathFromSVG("linksW"));
-//		buttonSVG.setFill(Color.web("#7395AE"));
-//		btn1.setGraphic(buttonSVG);
-		
 		btn1.setId("a-icon"); 
 		btn1.getStyleClass().add("icon-button");
 		btn2.setId("b-icon"); 

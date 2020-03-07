@@ -42,17 +42,27 @@ public class Synthesizer {
 	private static final double[] OCTAVES = {0.25,0.5,1.,2.,4.,8.};
 	
 	public static final double BASE_FREQUENCY = 261.63;
+	public double modFrequency= BASE_FREQUENCY;
 	
 	public static final int MAX_OKTAVE = OCTAVES.length;
 	public static final int MIN_OKTAVE = 0;
 
 	public static final int MAX_PITCH = 1000;
 	public int pitch =0;
+	
+	public static double amplitude = 100;
+	public static final double MAX_AMP = 100;
+	public static final double MIN_AMP = 0;
+	
+	public static final double MAX_MOD = 100;
+	public static final double MIN_MOD = 0;
+	public static int modulation = 0;
 
 	public boolean shouldGenerate = false;
 //	private int wavePos = 0;
 	private int octave=0;
 	
+	public Oscillator modOsc = new Oscillator();
 	private Oscillator[] oscillators = {new Oscillator(),new Oscillator(),new Oscillator()};
 //	public Oscillator osc2;
 //	public Oscillator osc3;	
@@ -71,24 +81,31 @@ public class Synthesizer {
 //			}
 //			return s;
 //		});
-
+		
+		modOsc.setKeyFrequency(440);
 		thread = new AudioThread(() -> 
 		{
 			short[] synth = initStream();
-			short[] wav = null;
-			try {
-				wav = initWavStream();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			if ( wav != null && synth != null) {
-				for(int i = 0; i < synth.length; i++) {
-					synth[i] = (short) ((synth[i] + wav[i]) / 2);
-				}
-			}
+			
 			return synth;
 		});
+		
+//		thread = new AudioThread(() -> 
+//		{
+//			short[] synth = initStream();
+//			short[] wav = null;
+//			try {
+//				wav = initWavStream();
+//			} catch (FileNotFoundException e1) {
+//				e1.printStackTrace();
+//			}
+//			if ( wav != null && synth != null) {
+//				for(int i = 0; i < synth.length; i++) {
+//					synth[i] = (short) ((synth[i] + wav[i]) / 2);
+//				}
+//			}
+//			return synth;
+//		});
 	}
 
 	public Oscillator getOsc(int n) {
@@ -100,18 +117,16 @@ public class Synthesizer {
 		{
 			return null;
 		}
-		WaveData sample = WaveData.create(new BufferedInputStream(new FileInputStream("Cello_A2.wav")));
+		WaveData sample = WaveData.create(new BufferedInputStream(new FileInputStream("assets/Cello_A2.wav")));
 		ShortBuffer buffer = sample.data.asShortBuffer();
 		short[] data = new short[buffer.limit()];
 		for(int i = 0; i< buffer.limit();i++) {
 			data[i] = buffer.get(i);
-//			System.out.println(buffer.get(i));
 		}
 		return data;
 	}
 	
 	private short[] initStream() {
-		// TODO Auto-generated method stub
 		if (!shouldGenerate) 
 		{
 			return null;
@@ -120,25 +135,30 @@ public class Synthesizer {
 		for (int i=0; i < AudioThread.BUFFER_SIZE; ++i) 
 		{
 			double d = 0;
-			d += getOsc(0).getNextSample();
+//			d += addOsc(getOsc(0).getKeyFrequency(), getOsc(1).getKeyFrequency());
+//			d += addOsc(getOsc(1).getKeyFrequency(), getOsc(2).getKeyFrequency());
+//			d += addOsc(getOsc(0).getKeyFrequency(), getOsc(2).getKeyFrequency());
+//			
+			d += getOsc(0).getNextSample();			
 			d += getOsc(1).getNextSample();			
 			d += getOsc(2).getNextSample();
+			if (modulation != 0) {
+				d +=  (amplitude/100d) * Math.cos(oscillators[0].getKeyFrequency() * oscillators[0].waveTableIndex + modulation * Math.cos(modOsc.getNextSample()));
+				
+			}
 			
 			d /= oscillators.length;
-			
-			s[i] = (short) (Short.MAX_VALUE * d);
-//			System.out.println("| "+ s[i] +" :| "+ i);
-//			myFiltcer1(s);
-//			System.out.println("FILTER         | "+ s[i] +" :| "+ i);
-//			s[i] = (short) (Short.MAX_VALUE * Math.sin((2 * Math.PI * 440) / AudioInfo.SAMPLE_RATE * wavePos++));
-		}
-//		System.out.println(getOsc(0).getWaveform()+", "+getOsc(1).getWaveform()+", "+getOsc(1).getWaveform());
-		
-		
-		
+						
+			s[i] = (short) (amplitude/100d * (Short.MAX_VALUE * d));
+		}		
 		return s; 
 	}
 
+	private double addOsc(double root, double aim) {
+		
+		return (amplitude/100d) * Math.cos(root * oscillators[0].waveTableIndex + modulation * Math.cos(modOsc.waveTableIndex * aim));
+	}
+	
 	private void myFilter1(short[] data) {
 		for(int i=0; i < data.length;i++) {
 			data[i]=(short) (data[i] * 0.9f);
@@ -152,12 +172,16 @@ public class Synthesizer {
 	}
 
 	public int getOctave() {
-		// TODO Auto-generated method stub
 		return octave;
 	}
 	
 	public void setOctave(int o) {
-		octave = o;
+		if (o<OCTAVES.length) {
+			octave = o;
+			if (o < MAX_OKTAVE - 2) {
+				modOsc.setKeyFrequency(BASE_FREQUENCY * OCTAVES[getOctave() + 2]);
+			}
+		}
 	}
 
 	public void setWaveformOsc(int i, Waveform newValue) {

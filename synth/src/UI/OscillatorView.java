@@ -12,6 +12,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -22,6 +23,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
@@ -31,46 +33,60 @@ public class OscillatorView extends GridPane {
 	Oscillator osc;
 //	VBox vBoxes[]= {new VBox(),new VBox(),new VBox()};
 	
-	Label oscLabel,toneText, toneLabel, volumeText, volumeLabel, amplText, amplValue;
-	
+	Label oscLabel,toneText, toneLabel, volumeText, volumeLabel;
+	RadioButton active;
 
+	private final int MAX_LABEL_SIZE_X = 60;
+	private final int MAX_LABEL_SIZE_Y = 23;
 	
 	public OscillatorView(Oscillator osc) {
 		setVgap(5);
 		setHgap(10);
 		setPadding(new Insets(10));
 		this.osc = osc;
-		setPrefSize(200, 100);
-		amplText = new Label("Amplitude:");
+		setPrefSize(250, 100);
 		oscLabel=new Label("Oscillator:");
+		active = new RadioButton("Active");
 		toneText= new Label("Tone:");
 		volumeText= new Label("Volume:");
-		toneLabel = new Label("x0.00");
+		toneLabel = new Label("x0.000");
 		volumeLabel = new Label("100%");
-		amplValue = new Label("1.0");
-		Border border = new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null
+		active.setTextFill(Color.ANTIQUEWHITE);
+		oscLabel.setTextFill(Color.ANTIQUEWHITE);
+		toneText.setTextFill(Color.ANTIQUEWHITE);
+		toneLabel.setTextFill(Color.ANTIQUEWHITE);
+		volumeText.setTextFill(Color.ANTIQUEWHITE);
+		volumeLabel.setTextFill(Color.ANTIQUEWHITE);
+		Border border = new Border(new BorderStroke(Color.ANTIQUEWHITE, BorderStrokeStyle.SOLID, null
 				, new BorderWidths(1)));
 		toneLabel.setBorder(border);
 		volumeLabel.setBorder(border);
-		amplValue.setBorder(border);
 		toneLabel.setPadding(new Insets(2));
+		volumeLabel.setPadding(new Insets(2));
+		setBorder(border);
 		
 		ObservableList<Waveform> oList = FXCollections.observableArrayList(Waveform.Sine, Waveform.Square, Waveform.Triangle, Waveform.Saw, Waveform.Noise);
 		choicebox = new ChoiceBox<>(oList);
 		choicebox.setValue(osc.getWaveform());
-		setBackground(new Background(new BackgroundFill(Color.BLANCHEDALMOND, CornerRadii.EMPTY, Insets.EMPTY)));
+		setBackground(new Background(new BackgroundFill(Color.DARKSLATEGREY, CornerRadii.EMPTY, Insets.EMPTY)));
+		
+		active.setSelected(true);
+		
+		toneLabel.setMaxSize(MAX_LABEL_SIZE_X, MAX_LABEL_SIZE_Y);
+		volumeLabel.setMaxSize(MAX_LABEL_SIZE_X - 20, MAX_LABEL_SIZE_Y);
+		toneLabel.setMinSize(MAX_LABEL_SIZE_X, MAX_LABEL_SIZE_Y);
+		volumeLabel.setMinSize(MAX_LABEL_SIZE_X - 20, MAX_LABEL_SIZE_Y);
 		
 		setHalignment(oscLabel, HPos.LEFT);
 		setHalignment(toneText, HPos.LEFT);
 		setHalignment(volumeText, HPos.LEFT);
-		add(oscLabel,0,0,2,1);
-		add(choicebox,0,1,2,1);
+		add(oscLabel,0,0, 4,1);
+		add(choicebox,0,1, 2,1);
+		add(active,3,1,2,1);
 		add(toneText,0,2);
-		add(volumeText,0,3);
-		add(amplText, 0, 4);
+		add(volumeText,3,2);
 		add(toneLabel,1,2);
-		add(volumeLabel,1,3);
-		add(amplValue,1,4);
+		add(volumeLabel,4,2);
 		
 		
 //		vBoxes[0].getChildren().addAll(choicebox,toneText);	

@@ -21,8 +21,8 @@ public class Oscillator {
 	private double keyFrequency;
 	
 	private int waveTableStepSize;
-	private int waveTableIndex;
-	
+	public int waveTableIndex;
+	int lastVol;
 	
 	public Oscillator() {
 //		waveForm = new Waveform();
@@ -83,7 +83,7 @@ public class Oscillator {
 		int index = 0;
 		int stepSize = (int) (Waveform.SIZE * (frequency * Math.pow(2, (toneOffset/1000d))) / AudioInfo.SAMPLE_RATE);
 		for(int i = 0; i < numSamples; ++i){
-			samples[i] = waveForm.getSamples()[index] * (volume/100d);
+			samples[i] = (Synthesizer.amplitude / 100d) * waveForm.getSamples()[index] * (volume/100d);
 			index = (index + stepSize) % Waveform.SIZE;
 		}
 		return samples;
@@ -97,5 +97,15 @@ public class Oscillator {
 	
 	public double getKeyFrequency() {
 		return keyFrequency;
+	}
+
+
+
+	public void setActive(Boolean active) {
+		
+		if (!active) {
+			lastVol=volume;
+			volume = 0;
+		} else volume = lastVol;
 	}
 }

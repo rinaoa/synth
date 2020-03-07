@@ -7,7 +7,7 @@ public class WaveViewController {
 	private WaveView wavView;
 	
 	public WaveViewController(Synthesizer synth){
-		this.wavView = new WaveView(synth.getOscillators());
+		this.wavView = new WaveView(synth);
 	}
 	
 	public WaveView getWavView() {

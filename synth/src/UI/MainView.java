@@ -1,8 +1,6 @@
  package UI;
 
 import Model.Synthesizer;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 
 public class MainView extends AnchorPane {
@@ -12,22 +10,28 @@ public class MainView extends AnchorPane {
 
 	SettingsController settingsC;
 	WaveViewController wavVC;
+	KeyboardView keyboardView;
 	
 	public MainView(Synthesizer synth) {
 		this.synthesizer = synth;
-		setPrefSize(800, 500);
+		this.keyboardView = new KeyboardView();
+		setPrefSize(745, 500);
 		
 		wavVC = new WaveViewController(synth);
 		oscVC = new OscillatorViewController(this, synth);
-		settingsC = new SettingsController(synth);
-//		System.out.println(oscVC.getView().getPrefWidth());
-		AnchorPane.setLeftAnchor(settingsC, 500d);
-		AnchorPane.setLeftAnchor(wavVC.getWavView(), 250d);
-		AnchorPane.setTopAnchor(wavVC.getWavView(), 200d);
+		settingsC = new SettingsController(this, synth);
 		
 		getChildren().add(oscVC.getView());
-		getChildren().add(settingsC);
+		AnchorPane.setLeftAnchor(oscVC.getView(), 497.0);
+		
 		getChildren().add(wavVC.getWavView());
+		
+		getChildren().add(keyboardView);
+        AnchorPane.setTopAnchor(keyboardView, 300.0);
+        
+        getChildren().add(settingsC);
+        AnchorPane.setTopAnchor(settingsC, 300.0);
+        AnchorPane.setLeftAnchor(settingsC, 497.0);
 	}
 
 }

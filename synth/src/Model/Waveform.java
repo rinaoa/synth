@@ -26,7 +26,6 @@ public enum Waveform {
 			Saw.samples[i] = (float) (amplitude * 2d * (tDivP - Math.floor(0.5 + tDivP)));
 			Triangle.samples[i] = (float) (2d * Math.abs(Saw.samples[i]) - 1f);
 			Noise.samples[i] = (float) (amplitude *rdm.nextDouble());
-//			System.out.println(Sine.samples[i]);
 		}
 	}
 

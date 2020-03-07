@@ -44,19 +44,25 @@ public class OscillatorViewController {
 	}
 
 	private void attachMouseHandlers(OscillatorView oView) {
+		oView.active.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				oView.osc.setActive(newValue);
+				if (newValue)
+					oView.volumeLabel.setText(oView.osc.volume + "%");
+				else
+					oView.volumeLabel.setText("0%");
+				mainV.wavVC.getWavView().drawWave();
+			}
+			
+		});
 		oView.choicebox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Waveform>() {
 
 			@Override
 			public void changed(ObservableValue<? extends Waveform> observable, Waveform oldValue, Waveform newValue) {
 				oView.osc.setWaveform(newValue);
-				Platform.runLater(new Runnable() {
-
-					@Override
-					public void run() {
-						mainV.wavVC.getWavView().drawWave();
-					}
-					
-				});
+				mainV.wavVC.getWavView().drawWave();
 //				Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "blank-cursor");
 			}
 			
@@ -74,24 +80,17 @@ public class OscillatorViewController {
 		
 		oView.toneLabel.setOnMouseDragged(drag -> {
 			if(mouseClickedLocation.getY() != drag.getY()) {
-				boolean movingUp = mouseClickedLocation.getY() - drag.getY() > 0;
-				if ( movingUp && oView.osc.toneOffset < Oscillator.TONE_OFFSET_LIMIT) {
-					++oView.osc.toneOffset;
-				} else if (!movingUp && oView.osc.toneOffset > -Oscillator.TONE_OFFSET_LIMIT) {
-					--oView.osc.toneOffset;
+//				boolean movingUp = mouseClickedLocation.getY() - drag.getY() > 0;
+				boolean movingUp = mouseClickedLocation.getY() > drag.getY();
+				if ( movingUp && oView.osc.toneOffset < Oscillator.TONE_OFFSET_LIMIT - 10) {
+					oView.osc.toneOffset += 10;
+				} else if (!movingUp && oView.osc.toneOffset > -Oscillator.TONE_OFFSET_LIMIT + 10) {
+					oView.osc.toneOffset -= 10;
 				}
 			}
-			Platform.runLater(new Runnable() {
-
-				@Override
-				public void run() {
-					mainV.wavVC.getWavView().drawWave();
-				}
-				
-			});
 			
-			mouseClickedLocation.xProperty().set(drag.getX());
-			mouseClickedLocation.yProperty().set(drag.getY());
+			mainV.wavVC.getWavView().drawWave();
+			
 			oView.osc.applyToneOffset();
 			oView.toneLabel.setText("x "+ String.format("%.3f", (double)(oView.osc.toneOffset / 1000d)));
 		});
@@ -115,7 +114,10 @@ public class OscillatorViewController {
 				} else if (!movingUp && oView.osc.volume > Oscillator.MIN_VOLUME) {
 					--oView.osc.volume;
 				}
-				
+				if (oView.osc.volume == 0)
+					oView.active.setSelected(false);
+				else 
+					oView.active.setSelected(true);
 			}
 			Platform.runLater(new Runnable() {
 
@@ -126,11 +128,7 @@ public class OscillatorViewController {
 				
 			});
 			
-			mouseClickedLocation.xProperty().set(drag.getX());
-			mouseClickedLocation.yProperty().set(drag.getY());
-//			oView.osc.applyToneOffset();
 			oView.volumeLabel.setText(oView.osc.volume+"%");
-//			System.out.println(oView.osc.volume);
 			System.out.println((oView.osc.volume/100d));
 
 		});
