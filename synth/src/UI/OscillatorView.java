@@ -34,7 +34,7 @@ public class OscillatorView extends GridPane {
 //	VBox vBoxes[]= {new VBox(),new VBox(),new VBox()};
 	
 	Label oscLabel,toneText, toneLabel, volumeText, volumeLabel;
-	RadioButton active;
+	RadioButton active, holdFr;
 
 	private final int MAX_LABEL_SIZE_X = 60;
 	private final int MAX_LABEL_SIZE_Y = 23;
@@ -47,6 +47,7 @@ public class OscillatorView extends GridPane {
 		setPrefSize(250, 100);
 		oscLabel=new Label("Oscillator:");
 		active = new RadioButton("Active");
+		holdFr = new RadioButton("Hold Key");
 		toneText= new Label("Tone:");
 		volumeText= new Label("Volume:");
 		toneLabel = new Label("x0.000");
@@ -80,9 +81,10 @@ public class OscillatorView extends GridPane {
 		setHalignment(oscLabel, HPos.LEFT);
 		setHalignment(toneText, HPos.LEFT);
 		setHalignment(volumeText, HPos.LEFT);
-		add(oscLabel,0,0, 4,1);
+		add(oscLabel,0,0, 2,1);
+		add(holdFr,2,0, 3,1);
 		add(choicebox,0,1, 2,1);
-		add(active,3,1,2,1);
+		add(active,2,1,2,1);
 		add(toneText,0,2);
 		add(volumeText,3,2);
 		add(toneLabel,1,2);

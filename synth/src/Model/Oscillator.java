@@ -24,6 +24,8 @@ public class Oscillator {
 	public int waveTableIndex;
 	int lastVol;
 	
+	public boolean holdFrequency = false;
+	
 	public Oscillator() {
 //		waveForm = new Waveform();
 //		waveForm=new SimpleObjectProperty<>();
@@ -83,14 +85,14 @@ public class Oscillator {
 		int index = 0;
 		int stepSize = (int) (Waveform.SIZE * (frequency * Math.pow(2, (toneOffset/1000d))) / AudioInfo.SAMPLE_RATE);
 		for(int i = 0; i < numSamples; ++i){
-			samples[i] = (Synthesizer.amplitude / 100d) * waveForm.getSamples()[index] * (volume/100d);
+			samples[i] = - (Synthesizer.amplitude / 100d) * waveForm.getSamples()[index] * (volume/100d);
 			index = (index + stepSize) % Waveform.SIZE;
 		}
 		return samples;
 	}
 	
 	public void setKeyFrequency(double c) {
-		keyFrequency = c;
+		if (!holdFrequency) keyFrequency = c;
 		applyToneOffset();
 //		System.out.println(keyFrequency);
 	}

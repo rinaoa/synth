@@ -19,9 +19,6 @@
 #d-icon {
 	-fx-background-image: url("../../assets/keys/rechtsW.png");
 }
-#e-icon {
-	-fx-background-image: url("../../assets/keys/e.png");
-}
 .icon-button:hover {
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 9, 0.0 , 0 , 1 );
 	background-color: #4CAF50;

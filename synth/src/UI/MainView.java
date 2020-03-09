@@ -29,9 +29,9 @@ public class MainView extends AnchorPane {
 		getChildren().add(keyboardView);
         AnchorPane.setTopAnchor(keyboardView, 300.0);
         
-        getChildren().add(settingsC);
-        AnchorPane.setTopAnchor(settingsC, 300.0);
-        AnchorPane.setLeftAnchor(settingsC, 497.0);
+        getChildren().add(settingsC.getView());
+        AnchorPane.setTopAnchor(settingsC.getView(), 300.0);
+        AnchorPane.setLeftAnchor(settingsC.getView(), 497.0);
 	}
 
 }

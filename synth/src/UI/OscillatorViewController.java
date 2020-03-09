@@ -57,6 +57,16 @@ public class OscillatorViewController {
 			}
 			
 		});
+		
+		oView.holdFr.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				oView.osc.holdFrequency = newValue;
+			}
+			
+		});
+		
 		oView.choicebox.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Waveform>() {
 
 			@Override

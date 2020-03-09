@@ -50,7 +50,7 @@ public class Synthesizer {
 	public static final int MAX_PITCH = 1000;
 	public int pitch =0;
 	
-	public static double amplitude = 100;
+	public static double amplitude = 50;
 	public static final double MAX_AMP = 100;
 	public static final double MIN_AMP = 0;
 	
@@ -143,12 +143,13 @@ public class Synthesizer {
 			d += getOsc(1).getNextSample();			
 			d += getOsc(2).getNextSample();
 			if (modulation != 0) {
-				d +=  (amplitude/100d) * Math.cos(oscillators[0].getKeyFrequency() * oscillators[0].waveTableIndex + modulation * Math.cos(modOsc.getNextSample()));
+				d +=  ((amplitude/100d) * Math.cos(oscillators[0].getKeyFrequency() * oscillators[0].waveTableIndex + modulation * Math.cos(modOsc.getNextSample()))) / 2;
 				
 			}
 			
 			d /= oscillators.length;
-						
+					
+			System.out.println(String.format("%.5f", d));
 			s[i] = (short) (amplitude/100d * (Short.MAX_VALUE * d));
 		}		
 		return s; 
