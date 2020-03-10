@@ -65,9 +65,10 @@ public class MainViewController extends Scene {
 		
 		
 		this.setOnKeyPressed(click -> {
-//			System.out.println("Key Pressed: "+click.getCode());
+			System.out.println("Key Pressed: "+click.getCode());
 			 switch(click.getCode()) {
-				case UP:
+		
+				case CLOSE_BRACKET:
 					System.out.println(synth.modulation);
 
 					if(synth.modulation < synth.MAX_MOD) {
@@ -77,10 +78,11 @@ public class MainViewController extends Scene {
 							@Override
 							public void run() {
 								mainV.wavVC.getWavView().drawWave();
+								mainV.settingsC.drawCont();
 							}
 						});
-					}
-				case DOWN:
+					} break;
+				case SLASH:
 					if(synth.modulation > synth.MIN_MOD) {
 						
 						synth.modulation--; 
@@ -89,9 +91,10 @@ public class MainViewController extends Scene {
 							@Override
 							public void run() {
 								mainV.wavVC.getWavView().drawWave();
+								mainV.settingsC.setView.modValue.setText(String.format("x%.2f", synth.modulation/100d));
 							}
-						});					
-					}
+						});	
+					} break;
 				case Z: 	
 			 		play(synth.C); break;
 			 	case S:		
@@ -145,8 +148,8 @@ public class MainViewController extends Scene {
 			 		play(synth.H2); break;
 			 	case O:
 			 		play(synth.C3); break;
-			default:
-//				play();
+			 	default:
+			 		
 			}
 			 
 //			Platform.runLater(new Runnable() {

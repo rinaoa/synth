@@ -73,7 +73,7 @@ Synthesizer synth;
 		setView.gcVol.stroke();
 	}
 
-	private void drawCont() {
+	public void drawCont() {
 		setView.gcMod.restore();
 		setView.gcMod.setFill(Color.DARKSLATEGRAY);
 
@@ -87,6 +87,8 @@ Synthesizer synth;
 		setView.gcMod.lineTo(setView.cvMod.getWidth(), setView.cvMod.getHeight() - setView.cvMod.getHeight() * (synth.modulation/synth.MAX_MOD));
 		setView.gcMod.stroke();
 		
+		setView.modValue.setText(String.format("x%.2f", synth.modulation/100d));
+
 	}
 
 	private void initialize() {
@@ -182,7 +184,7 @@ Synthesizer synth;
 			mouseClickedLocation.xProperty().set(drag.getX());
 			mouseClickedLocation.yProperty().set(drag.getY());
 			mView.wavVC.getWavView().drawWave();	
-			setView.modValue.setText("x"+synth.modulation);
+			setView.modValue.setText(String.format("%.2f", synth.modulation/100d));
 
 		});
 	}
