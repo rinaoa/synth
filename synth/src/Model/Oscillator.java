@@ -23,10 +23,12 @@ public class Oscillator {
 	private int waveTableStepSize;
 	public int waveTableIndex;
 	int lastVol;
+	Synthesizer synth;
 	
 	public boolean holdFrequency = false;
 	
-	public Oscillator() {
+	public Oscillator(Synthesizer synth) {
+		this.synth = synth;
 //		waveForm = new Waveform();
 //		waveForm=new SimpleObjectProperty<>();
 		waveForm = Waveform.Sine;
@@ -85,7 +87,7 @@ public class Oscillator {
 		int index = 0;
 		int stepSize = (int) (Waveform.SIZE * (frequency * Math.pow(2, (toneOffset/1000d))) / AudioInfo.SAMPLE_RATE);
 		for(int i = 0; i < numSamples; ++i){
-			samples[i] = - (Synthesizer.amplitude / 100d) * waveForm.getSamples()[index] * (volume/100d);
+			samples[i] = - (synth.amplitude / 100d) * waveForm.getSamples()[index] * (volume/100d);
 			index = (index + stepSize) % Waveform.SIZE;
 		}
 		return samples;

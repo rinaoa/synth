@@ -12,7 +12,12 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.BoxBlur;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Light.Point;
+import javafx.scene.effect.Lighting;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 
@@ -56,88 +61,90 @@ public class MainViewController extends Scene {
 	}
 
 	private void initialize() {
+		
+		
+		
 		this.setOnKeyPressed(click -> {
 //			System.out.println("Key Pressed: "+click.getCode());
 			 switch(click.getCode()) {
-			 	case Z: 	
-			 		synth.setKeyFrequency(synth.C); 	
-			 		play(); break;
+				case UP:
+					System.out.println(synth.modulation);
+
+					if(synth.modulation < synth.MAX_MOD) {
+						synth.modulation++; 
+						Platform.runLater(new Runnable() {
+							
+							@Override
+							public void run() {
+								mainV.wavVC.getWavView().drawWave();
+							}
+						});
+					}
+				case DOWN:
+					if(synth.modulation > synth.MIN_MOD) {
+						
+						synth.modulation--; 
+						Platform.runLater(new Runnable() {
+							
+							@Override
+							public void run() {
+								mainV.wavVC.getWavView().drawWave();
+							}
+						});					
+					}
+				case Z: 	
+			 		play(synth.C); break;
 			 	case S:		
-			 		synth.setKeyFrequency(synth.CIS); 	
-			 		play(); break;
+			 		play(synth.CIS); break;
 			 	case X:		
-			 		synth.setKeyFrequency(synth.D); 	
-			 		play(); break;
+			 		play(synth.D); break;
 			 	case D: 	
-			 		synth.setKeyFrequency(synth.DIS); 	
-			 		play(); break;
+			 		play(synth.DIS); break;
 			 	case C:		
-			 		synth.setKeyFrequency(synth.E); 	
-			 		play(); break;
+			 		play(synth.E); break;
 			 	case V:		
-			 		synth.setKeyFrequency(synth.F); 	
-			 		play(); break;
+			 		play(synth.F); break;
 			 	case G:		
-			 		synth.setKeyFrequency(synth.FIS); 	
-			 		play(); break;
+			 		play(synth.FIS); break;
 			 	case B: 	
-			 		synth.setKeyFrequency(synth.G); 	
-			 		play(); break;
+			 		play(synth.G); break;
 			 	case H:		
-			 		synth.setKeyFrequency(synth.GIS); 	
-			 		play(); break;
+			 		play(synth.GIS); break;
 			 	case N:		
-			 		synth.setKeyFrequency(synth.A); 	
-			 		play(); break;
+			 		play(synth.A); break;
 			 	case J:		
-			 		synth.setKeyFrequency(synth.AIS); 	
-			 		play(); break;
+			 		play(synth.AIS); break;
 			 	case M:		
-			 		synth.setKeyFrequency(synth.H); 	
-			 		play(); break;
+			 		play(synth.H); break;
 			 	case COMMA:	
-			 		synth.setKeyFrequency(synth.C2); 	
-			 		play(); break;
+			 		play(synth.C2); break;
 			 		
 			 	case W:
-			 		synth.setKeyFrequency(synth.C2); 	
-			 		play(); break;
+			 		play(synth.C2); break;
 			 	case DIGIT3:
-			 		synth.setKeyFrequency(synth.CIS2); 	
-			 		play(); break;
+			 		play(synth.CIS2); break;
 			 	case E:
-			 		synth.setKeyFrequency(synth.D2); 	
-			 		play(); break;
+			 		play(synth.D2); break;
 			 	case DIGIT4:
-			 		synth.setKeyFrequency(synth.DIS2); 	
-			 		play(); break;
+			 		play(synth.DIS2); break;
 			 	case R:
-			 		synth.setKeyFrequency(synth.E2); 	
-			 		play(); break;
+			 		play(synth.E2); break;
 			 	case T:
-			 		synth.setKeyFrequency(synth.F2); 	
-			 		play(); break;
+			 		play(synth.F2); break;
 			 	case DIGIT6:
-			 		synth.setKeyFrequency(synth.FIS2); 	
-			 		play(); break;
+			 		play(synth.FIS2); break;
 			 	case Y:
-			 		synth.setKeyFrequency(synth.G2); 	
-			 		play(); break;
+			 		play(synth.G2); break;
 			 	case DIGIT7:
-			 		synth.setKeyFrequency(synth.GIS2); 	
-			 		play(); break;
+			 		play(synth.GIS2); break;
 			 	case U:
-			 		synth.setKeyFrequency(synth.A2); 	
-			 		play(); break;
+			 		play(synth.A2); break;
 			 	case DIGIT8:
-			 		synth.setKeyFrequency(synth.AIS2); 	
-			 		play(); break;
+			 		play(synth.AIS2); break;
 			 	case I:
-			 		synth.setKeyFrequency(synth.H2); 	
-			 		play(); break;
+			 		play(synth.H2); break;
 			 	case O:
-			 		synth.setKeyFrequency(synth.C3); 	
-			 		play(); break;
+			 		play(synth.C3); break;
 			default:
 //				play();
 			}
@@ -153,9 +160,10 @@ public class MainViewController extends Scene {
 			
 		});
 		
+		
+		
 		this.setOnKeyReleased(release -> {
-			synth.shouldGenerate = false;
-			synth.thread.running = false;
+			pause();
 //			System.out.println("key released");
 		});
 		
@@ -163,16 +171,14 @@ public class MainViewController extends Scene {
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.setKeyFrequency(synth.C); 	
-				 		play();
+				 		play(synth.C);
 					}              
 			});
 			btn1.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -182,16 +188,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.CIS); 	
-					 		play();
+					 		play(synth.CIS);
 						}              
 				});
 			btn2.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -201,16 +205,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.D); 	
-					 		play();
+					 		play(synth.D);
 						}              
 				});
 			btn3.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -220,16 +222,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.DIS); 	
-					 		play();
+					 		play(synth.DIS);
 						}              
 				});
 			btn4.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -239,16 +239,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.E); 	
-					 		play();
+					 		play(synth.E);
 						}              
 				});
 			btn5.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -258,16 +256,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.F); 	
-					 		play();
+					 		play(synth.F);
 						}              
 				});
 			btn6.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -277,16 +273,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.FIS); 	
-					 		play();
+					 		play(synth.FIS);
 						}              
 				});
 			btn7.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -296,16 +290,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.G); 	
-					 		play();
+					 		play(synth.G);
 						}              
 				});
 			btn8.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -315,16 +307,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.GIS); 	
-					 		play();
+					 		play(synth.GIS);
 						}              
 				});
 			btn9.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -334,16 +324,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.A); 	
-					 		play();
+					 		play(synth.A);
 						}              
 				});
 			btn10.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;     
+						pause();   
 					}
 			});
 			//
@@ -353,16 +341,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.AIS); 	
-					 		play();
+					 		play(synth.AIS);
 						}              
 				});
 			btn11.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -372,16 +358,14 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.H); 	
-					 		play();
+					 		play(synth.H);
 						}              
 				});
 			btn12.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 			//
@@ -391,24 +375,66 @@ public class MainViewController extends Scene {
 					new EventHandler<MouseEvent>() {
 						@Override
 						public void handle(MouseEvent event) {
-							synth.setKeyFrequency(synth.C2); 	
-					 		play();
+					 		play(synth.C2);
 						}              
 				});
 			btn13.addEventFilter(MouseEvent.MOUSE_RELEASED,                
 				new EventHandler<MouseEvent>() {
 					@Override
 					public void handle(MouseEvent event) {
-						synth.shouldGenerate = false;
-						synth.thread.running = false;
+						pause();
 					}              
 			});
 	}
 	
-	private void play() {
+	private void pause() {
+		synth.shouldGenerate = false;
+		synth.thread.running = false;
+		btn1.setEffect(null);
+		btn2.setEffect(null);
+		btn3.setEffect(null);
+		btn4.setEffect(null);
+		btn5.setEffect(null);
+		btn6.setEffect(null);
+		btn7.setEffect(null);
+		btn8.setEffect(null);
+		btn9.setEffect(null);
+		btn10.setEffect(null);
+		btn11.setEffect(null);
+		btn12.setEffect(null);
+	}
+	
+	private void play(double key) {
 		if (!synth.thread.isRunning()) {
+			synth.setKeyFrequency(key); 	
 			synth.shouldGenerate = true;
 			synth.thread.triggerPlayback();
+		}
+		
+		if (key == synth.C || key == synth.C2) {
+			btn1.setEffect(new Lighting());
+		} else if (key == synth.CIS || key == synth.CIS2) {
+			btn2.setEffect(new BoxBlur());
+		} else if (key == synth.D || key == synth.D2) {
+			btn3.setEffect(new Lighting());
+		} else if (key == synth.DIS || key == synth.DIS2) {
+			btn4.setEffect(new BoxBlur());
+		} else if (key == synth.E || key == synth.E2) {
+			btn5.setEffect(new Lighting());
+		} else if (key == synth.F || key == synth.F2) {
+			btn6.setEffect(new Lighting());
+		} else if (key == synth.FIS || key == synth.FIS2) {
+			btn7.setEffect(new BoxBlur());
+		} else if (key == synth.G || key == synth.G2) {
+			btn8.setEffect(new Lighting());
+		} else if (key == synth.GIS || key == synth.GIS2) {
+			btn9.setEffect(new BoxBlur());
+		} else if (key == synth.A || key == synth.A2) {
+			btn10.setEffect(new Lighting());
+		} else if (key == synth.AIS || key == synth.AIS2) {
+			btn11.setEffect(new BoxBlur());
+		} else if (key == synth.H || key == synth.H2) {
+			btn12.setEffect(new Lighting());
 		}
 	}
 

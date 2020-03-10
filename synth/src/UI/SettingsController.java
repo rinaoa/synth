@@ -83,8 +83,8 @@ Synthesizer synth;
 		setView.gcMod.setStroke(Color.BLACK);
 
 		setView.gcMod.beginPath();
-		setView.gcMod.moveTo(0, setView.cvMod.getHeight() - setView.cvMod.getHeight() * (synth.modulation/Synthesizer.MAX_MOD));
-		setView.gcMod.lineTo(setView.cvMod.getWidth(), setView.cvMod.getHeight() - setView.cvMod.getHeight() * (synth.modulation/Synthesizer.MAX_MOD));
+		setView.gcMod.moveTo(0, setView.cvMod.getHeight() - setView.cvMod.getHeight() * (synth.modulation/synth.MAX_MOD));
+		setView.gcMod.lineTo(setView.cvMod.getWidth(), setView.cvMod.getHeight() - setView.cvMod.getHeight() * (synth.modulation/synth.MAX_MOD));
 		setView.gcMod.stroke();
 		
 	}
@@ -100,8 +100,8 @@ Synthesizer synth;
 		setView.cvMod.setOnMouseDragged(drag -> {
 			
 			
-			if(synth.modulation + (mouseClickedLocation.getY() - drag.getY()) <= Synthesizer.MAX_MOD 
-					&& synth.modulation + (mouseClickedLocation.getY() - drag.getY()) >= Synthesizer.MIN_MOD) {
+			if(synth.modulation + (mouseClickedLocation.getY() - drag.getY()) <= synth.MAX_MOD 
+					&& synth.modulation + (mouseClickedLocation.getY() - drag.getY()) >= synth.MIN_MOD) {
 				synth.modulation += (mouseClickedLocation.getY() - drag.getY());
 			}
 			Platform.runLater(new Runnable() {
@@ -171,10 +171,10 @@ Synthesizer synth;
 		setView.modValue.setOnMouseDragged(drag -> {
 			if(mouseClickedLocation.getY() != drag.getY()) {
 				boolean movingUp = mouseClickedLocation.getY() - drag.getY() > 0;
-				if ( movingUp && synth.modulation < Synthesizer.MAX_MOD-10) {
-					synth.modulation +=10;
-				} else if (!movingUp && synth.modulation > -Synthesizer.MAX_MOD+10) {
-					synth.modulation-=10;
+				if ( movingUp && synth.modulation < synth.MAX_MOD) {
+					synth.modulation ++;
+				} else if (!movingUp && synth.modulation > synth.MIN_MOD) {
+					synth.modulation--;
 				}
 			}
 			

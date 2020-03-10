@@ -64,7 +64,6 @@ public class AudioThread extends Thread {
 			for (int i=0; i< processedBuffers; i++) 
 			{
 				short[] samples = bufferSupplier.get();
-				System.out.println("GET!!!");
 				if (samples == null) 
 				{
 					running = false;
@@ -81,7 +80,6 @@ public class AudioThread extends Thread {
 			}
 			if (alGetSourcei(source, AL_SOURCE_STATE) != AL_PLAYING) 
 			{
-				System.out.println("play");
 				alSourcePlay(source);
 			}
 			catchInternalException();

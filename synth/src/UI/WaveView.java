@@ -38,9 +38,9 @@ public class WaveView extends Pane{
 	}
 	
 	public void drawWave() {
-		
-		gc.restore();
-		gc.setFill(new Color(0.5, 0.6, 0.7, 0.3));
+		gc.setFill(new Color(0.5, 0.6, 0.7, .3));
+
+		gc.clearRect(0,0,495,298);
 		gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 		gc.setLineWidth(1.);
 		gc.beginPath();
@@ -65,10 +65,10 @@ public class WaveView extends Pane{
 				mixedSamples[i] += (samples[i]);
 			}
 		}
-		if(Synthesizer.modulation!= 0) {
+		if(synth.modulation!= 0) {
 			for (int i = 1; i< mixedSamples.length; i++) {
 //				mixedSamples[i] = (mixedSamples[i] + synth.modOsc.getSampleWaveform(numSamples)[i]) / oscillators.length + 1;
-				mixedSamples[i] +=  ((synth.amplitude/100d) * Math.cos(oscillators[0].getKeyFrequency() * oscillators[0].waveTableIndex + synth.modulation * Math.cos(synth.modOsc.getNextSample()))) / oscillators.length + 1;
+				mixedSamples[i] += (((synth.amplitude/100d) * Math.cos(oscillators[0].getKeyFrequency() * oscillators[0].waveTableIndex + synth.modulation * Math.cos(synth.modOsc.getNextSample()))) / oscillators.length + 1) - 1;
 			}
 		} else {
 			for (int i = 1; i< mixedSamples.length; i++) {

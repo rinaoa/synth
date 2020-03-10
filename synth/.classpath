@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="assets"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-javadoc.jar"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-natives-macos.jar"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-javadoc.jar"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-natives-macos.jar"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-openal.jar"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl.jar"/>
-	<classpathentry kind="lib" path="/Users/katia/git/synth/synth/libraries/slick-util.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-javadoc.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-natives-macos.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-javadoc.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-natives-macos.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-openal-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-openal.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/lwjgl-release-3.2.3-custom/lwjgl.jar"/>
+	<classpathentry kind="lib" path="/Users/simonschwertner/git/synth/synth/libraries/slick-util.jar"/>
+	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

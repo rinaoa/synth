@@ -42,6 +42,7 @@ public class SettingsView extends  HBox{
 		modValue = new Label("x 0");
 		cvMod = new Canvas(50,100);
 		gcMod = cvMod.getGraphicsContext2D();
+
 		
 		cvVol = new Canvas(50,100);
 		gcVol = cvVol.getGraphicsContext2D();
